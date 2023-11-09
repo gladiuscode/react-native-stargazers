@@ -1,12 +1,13 @@
 import React from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import ThemeProvider from './providers/theme/theme.provider';
+import HomepageScreen from './features/homepage/homepage.screen';
 
 function App(): JSX.Element {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ThemeProvider>
-        <Text>StarGazers</Text>
+        <HomepageScreen />
       </ThemeProvider>
     </SafeAreaView>
   );
