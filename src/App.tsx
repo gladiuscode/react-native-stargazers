@@ -4,7 +4,7 @@ import ThemeProvider from './providers/theme/theme.provider';
 
 function App(): JSX.Element {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <ThemeProvider>
         <Text>StarGazers</Text>
       </ThemeProvider>
