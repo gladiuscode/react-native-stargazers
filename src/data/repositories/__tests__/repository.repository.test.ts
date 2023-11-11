@@ -2,10 +2,15 @@ import {beforeEach, expect, it, jest} from '@jest/globals';
 import RepositoryRepositoryImpl from '../repository.repository';
 import {IRemoteDatasource} from '../../sources/remote.datasource';
 import GetRepositoryResponse from '../../sources/responses/getRepository.response';
+import RepositoryEntity from '../../../domain/entities/repository.entity';
+
+const mockedRepositoryEntity = new RepositoryEntity('test');
 
 const mockedGetRepositoryMethod = jest.fn(
   (_: string, __: string): Promise<GetRepositoryResponse> => {
-    return Promise.resolve({} as GetRepositoryResponse);
+    return Promise.resolve({
+      stargazers_url: mockedRepositoryEntity.stargazers_url,
+    } as GetRepositoryResponse);
   },
 );
 const mockedRemoteDatasource: IRemoteDatasource = {
@@ -46,4 +51,15 @@ it('should have getRepository method that calls remoteDatasource.getRepository o
   expect(mockedGetRepositoryMethod.mock.calls.at(0)?.at(1)).toBe(
     expectedResult.at(1),
   );
+});
+
+it('should have getRepository method that calls remoteDatasource.getRepository once with provided arguments and returns a RepositoryEntity', async () => {
+  const expectedResult = new RepositoryEntity(
+    mockedRepositoryEntity.stargazers_url,
+  );
+
+  const result = await repositoryRepository.getRepository('', '');
+
+  expect(result).toBeInstanceOf(RepositoryEntity);
+  expect(result.stargazers_url).toBe(expectedResult.stargazers_url);
 });
