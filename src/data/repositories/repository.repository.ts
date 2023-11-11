@@ -1,7 +1,7 @@
 import {IRemoteDatasource} from '../sources/remote.datasource';
 import RepositoryEntity from '../../domain/entities/repository.entity';
 
-interface IRepositoryRepository {
+export interface IRepositoryRepository {
   getRepository(owner: string, repository: string): Promise<RepositoryEntity>;
 }
 
