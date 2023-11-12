@@ -1,6 +1,7 @@
 const light = {
   background: '#ffffff',
   text: '#191818',
+  textLight: 'rgba(25,24,24,0.37)',
   error: '#f43838',
   divider: '#a4a4a4',
 };
@@ -8,6 +9,7 @@ const light = {
 const dark: typeof light = {
   background: '#ffffff',
   text: '#191818',
+  textLight: 'rgba(25,24,24,0.37)',
   error: '#f43838',
   divider: '#a4a4a4',
 };
