@@ -20,6 +20,10 @@ const getHomepageStyles = ({palette, spacing}: StylesDefaults) => {
       backgroundColor: palette.divider,
       marginBottom: spacing.xxl,
     },
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+    },
   });
 };
 
