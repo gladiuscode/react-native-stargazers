@@ -7,6 +7,7 @@ export const STARGAZERS_PER_PAGE = 50;
 const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
   const repositoryRepository = useRepositories().repository;
   const [data, setData] = useState<StargazerEntity[]>([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
 
   const enabled = !!repositoryUrl;
@@ -16,6 +17,7 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
       console.log('[useGetRepositoryApi] - getStargazers', page);
 
       try {
+        setLoading(true);
         const nextStargazers =
           await repositoryRepository.getRepositoryStargazers(
             url,
@@ -29,6 +31,8 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
           setError(e.message);
         }
         setError('Something went wrong');
+      } finally {
+        setLoading(false);
       }
     },
     [repositoryRepository],
@@ -43,6 +47,10 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
   }, [enabled, getStargazers, repositoryUrl]);
 
   const fetchNextPage = useCallback(() => {
+    if (loading) {
+      return;
+    }
+
     if (!enabled) {
       return;
     }
@@ -51,14 +59,14 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
       return;
     }
 
-    const currentPage = data.length / STARGAZERS_PER_PAGE;
+    const currentPage = Math.ceil(data.length / STARGAZERS_PER_PAGE);
 
     getStargazers(repositoryUrl, currentPage + 1).then();
-  }, [data, enabled, getStargazers, repositoryUrl]);
+  }, [data, enabled, getStargazers, loading, repositoryUrl]);
 
   return {
     data,
-    loading: !data && !error && enabled,
+    loading,
     error,
     fetchNextPage,
   };
