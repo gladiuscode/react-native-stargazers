@@ -3,6 +3,9 @@ const light = {
   text: '#191818',
   textLight: 'rgba(25,24,24,0.37)',
   error: '#f43838',
+  errorSurface: 'rgb(255,185,185)',
+  success: '#4ca742',
+  successSurface: 'rgb(213,255,213)',
   divider: '#a4a4a4',
 };
 
@@ -11,6 +14,9 @@ const dark: typeof light = {
   text: '#191818',
   textLight: 'rgba(25,24,24,0.37)',
   error: '#f43838',
+  errorSurface: 'rgb(255,185,185)',
+  success: '#4ca742',
+  successSurface: 'rgb(213,255,213)',
   divider: '#a4a4a4',
 };
 
