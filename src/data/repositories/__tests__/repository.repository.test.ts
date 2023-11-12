@@ -6,7 +6,7 @@ import RepositoryEntity from '../../../domain/entities/repository.entity';
 import GetRepositoryStargazersResponse from '../../sources/responses/getRepositoryStargazers.response';
 import StargazerEntity from '../../../domain/entities/stargazer.entity';
 
-const mockedRepositoryEntity = new RepositoryEntity('test');
+const mockedRepositoryEntity = new RepositoryEntity(1, 'test');
 const mockedStargazerEntity = new StargazerEntity('test_url', 'test');
 
 const mockedGetRepositoryMethod = jest.fn(
@@ -18,7 +18,11 @@ const mockedGetRepositoryMethod = jest.fn(
 );
 
 const mockedGetRepositoryStargazersMethod = jest.fn(
-  (_: string): Promise<GetRepositoryStargazersResponse[]> => {
+  (
+    _: string,
+    __: number,
+    ___: number,
+  ): Promise<GetRepositoryStargazersResponse[]> => {
     return Promise.resolve([
       {
         login: mockedStargazerEntity.name,
@@ -73,6 +77,7 @@ describe('repositoryRepository.getRepository method', () => {
 
   it('should have getRepository method that calls remoteDatasource.getRepository once with provided arguments and returns a RepositoryEntity', async () => {
     const expectedResult = new RepositoryEntity(
+      mockedRepositoryEntity.stargazers_count,
       mockedRepositoryEntity.stargazers_url,
     );
 
@@ -102,7 +107,9 @@ describe('repositoryRepository.getRepositoryStargazers method', () => {
 
   it('should have getRepositoryStargazers method that calls remoteDatasource.getRepositoryStargazers once with provided arguments', async () => {
     const firstInput = 'test1';
-    const expectedResult = [firstInput];
+    const secondInput = 1;
+    const thirdInput = 20;
+    const expectedResult = [firstInput, secondInput, thirdInput];
 
     await repositoryRepository.getRepositoryStargazers(firstInput);
 

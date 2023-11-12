@@ -13,6 +13,8 @@ export interface IRemoteDatasource {
 
   getRepositoryStargazers(
     repositoryURL: string,
+    page?: number,
+    perPage?: number,
   ): Promise<GetRepositoryStargazersResponse[]>;
 }
 
@@ -28,8 +30,15 @@ class RemoteDatasourceImpl implements IRemoteDatasource {
 
   async getRepositoryStargazers(
     url: string,
+    page = 1,
+    perPage = 20,
   ): Promise<GetRepositoryStargazersResponse[]> {
-    return await this._apiClient.get(url);
+    return await this._apiClient.get(url, {
+      params: {
+        page,
+        per_page: perPage,
+      },
+    });
   }
 }
 
