@@ -1,16 +1,19 @@
 import {StyleSheet} from 'react-native';
 import {StylesDefaults} from '../../../../providers/theme/useStyles.hook';
 
+export const STARGAZER_CARD_HEIGHT = 120;
+
 const getHomepageStargazersStyles = (defaults: StylesDefaults) => {
   return StyleSheet.create({
     container: {
       flex: 1,
     },
     stargazerCard: {
+      height: STARGAZER_CARD_HEIGHT,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: defaults.spacing.m,
+      paddingHorizontal: defaults.spacing.m,
       borderWidth: 1,
       borderRadius: defaults.borderRadius.s,
     },

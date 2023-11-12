@@ -1,5 +1,6 @@
 import {
   FlatList,
+  FlatListProps,
   Image,
   Linking,
   ListRenderItem,
@@ -11,7 +12,9 @@ import React, {memo, useCallback} from 'react';
 import StargazerEntity from '../../../../../domain/entities/stargazer.entity';
 import useGetRepositoryStargazerApi from '../../../../hooks/useGetRepositoryStargazersApi/useGetRepositoryStargazersApi.hook';
 import useStyles from '../../../../providers/theme/useStyles.hook';
-import getHomepageStargazersStyles from './stargazersList.homepage.styles';
+import getHomepageStargazersStyles, {
+  STARGAZER_CARD_HEIGHT,
+} from './stargazersList.homepage.styles';
 import Images from '../../../../../assets/images/images.asset';
 
 interface Props {
@@ -23,6 +26,17 @@ const HomepageStargazers = memo<Props>(({url, size}) => {
   const styles = useStyles(getHomepageStargazersStyles);
 
   const {data, fetchNextPage} = useGetRepositoryStargazerApi(url);
+
+  const getItemLayout = useCallback<
+    NonNullable<FlatListProps<StargazerEntity>['getItemLayout']>
+  >(
+    (_, index) => ({
+      length: STARGAZER_CARD_HEIGHT + styles.separator.marginBottom,
+      offset: STARGAZER_CARD_HEIGHT * index,
+      index,
+    }),
+    [styles.separator.marginBottom],
+  );
 
   const onOpenGithubUrl = useCallback(
     (githubUrl: string) => async () => {
@@ -80,6 +94,7 @@ const HomepageStargazers = memo<Props>(({url, size}) => {
         data={data}
         renderItem={renderItem}
         onEndReached={fetchNextPage}
+        getItemLayout={getItemLayout}
         ItemSeparatorComponent={renderSeparator}
       />
       <View style={styles.footer}>
