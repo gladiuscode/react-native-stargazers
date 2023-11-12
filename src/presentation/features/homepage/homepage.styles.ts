@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {StylesDefaults} from '../../providers/theme/useStyles.hook';
 
-const getHomepageStyles = ({palette, typography, spacing}: StylesDefaults) => {
+const getHomepageStyles = ({palette, spacing}: StylesDefaults) => {
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -9,8 +9,16 @@ const getHomepageStyles = ({palette, typography, spacing}: StylesDefaults) => {
       paddingTop: spacing.xl,
       paddingHorizontal: spacing.xl,
     },
-    title: {
-      ...typography.styles.body,
+    header: {
+      marginBottom: spacing.xxl,
+    },
+    form: {
+      marginBottom: spacing.xxl,
+    },
+    separator: {
+      height: 1,
+      backgroundColor: palette.divider,
+      marginBottom: spacing.xxl,
     },
   });
 };
