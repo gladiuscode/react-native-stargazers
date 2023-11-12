@@ -34,7 +34,13 @@ class RepositoryRepositoryImpl implements IRepositoryRepository {
       perPage,
     );
     return data.map(
-      item => new StargazerEntity(item.id, item.avatar_url, item.login),
+      item =>
+        new StargazerEntity(
+          item.id,
+          item.avatar_url,
+          item.login,
+          item.html_url,
+        ),
     );
   }
 }

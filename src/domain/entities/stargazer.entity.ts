@@ -3,6 +3,7 @@ class StargazerEntity {
     private _id: number,
     private _avatarUrl: string,
     private _name: string,
+    private _homepage: string,
   ) {}
 
   get id(): number {
@@ -15,6 +16,10 @@ class StargazerEntity {
 
   get name(): string {
     return this._name;
+  }
+
+  get homepage(): string {
+    return this._homepage;
   }
 }
 
