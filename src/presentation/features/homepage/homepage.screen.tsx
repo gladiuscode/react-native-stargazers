@@ -26,6 +26,7 @@ const HomepageScreen = () => {
       ) : null}
       {repositoryEntity ? (
         <HomepageStargazers
+          key={repositoryEntity.stargazers_url}
           url={repositoryEntity.stargazers_url}
           size={repositoryEntity.stargazers_count}
         />
