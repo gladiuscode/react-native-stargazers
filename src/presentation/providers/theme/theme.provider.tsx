@@ -1,6 +1,6 @@
 import React, {PropsWithChildren, useCallback, useMemo, useState} from 'react';
 import {useColorScheme} from 'react-native';
-import contextFactory from '../../utils/contextFactory/contextFactory.util';
+import contextFactory from '../../../utils/contextFactory/contextFactory.util';
 import palette, {Palette, PaletteVariant} from './palette.theme';
 import getTypographyBy, {Typography} from './typography.theme';
 import {spacing, Spacing} from './spacing.theme';

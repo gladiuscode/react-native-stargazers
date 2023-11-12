@@ -1,11 +1,11 @@
 import React, {PropsWithChildren, useMemo, useRef} from 'react';
-import contextFactory from '../../utils/contextFactory/contextFactory.util';
+import contextFactory from '../../../utils/contextFactory/contextFactory.util';
 import RepositoryRepositoryImpl, {
   IRepositoryRepository,
-} from '../../data/repositories/repository.repository';
-import RemoteDatasourceImpl from '../../data/sources/remote.datasource';
-import ClientApi from '../../data/api/client.api';
-import configEnv from '../../../envs/config.env';
+} from '../../../data/repositories/repository.repository';
+import RemoteDatasourceImpl from '../../../data/sources/remote.datasource';
+import ClientApi from '../../../data/api/client.api';
+import configEnv from '../../../../envs/config.env';
 
 export interface RepositoriesContext {
   repository: IRepositoryRepository;
