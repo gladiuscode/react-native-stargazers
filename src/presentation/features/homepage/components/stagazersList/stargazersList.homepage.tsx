@@ -1,21 +1,18 @@
 import {
   FlatList,
   FlatListProps,
-  Image,
   Linking,
   ListRenderItem,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {memo, useCallback} from 'react';
 import StargazerEntity from '../../../../../domain/entities/stargazer.entity';
 import useGetRepositoryStargazerApi from '../../../../hooks/useGetRepositoryStargazersApi/useGetRepositoryStargazersApi.hook';
 import useStyles from '../../../../providers/theme/useStyles.hook';
-import getHomepageStargazersStyles, {
-  STARGAZER_CARD_HEIGHT,
-} from './stargazersList.homepage.styles';
-import Images from '../../../../../assets/images/images.asset';
+import StargazerCard from '../../../../components/atoms/stargazerCard/stargazerCard.atom';
+import getHomepageStargazersStyles from './stargazersList.homepage.styles';
+import {STARGAZER_CARD_HEIGHT} from '../../../../components/atoms/stargazerCard/stargazerCard.styles';
 
 interface Props {
   url: string;
@@ -38,49 +35,20 @@ const HomepageStargazers = memo<Props>(({url, size}) => {
     [styles.separator.marginBottom],
   );
 
-  const onOpenGithubUrl = useCallback(
-    (githubUrl: string) => async () => {
-      const canOpen = Linking.canOpenURL(githubUrl);
-      if (!canOpen) {
-        return;
-      }
+  const onOpenGithubUrl = useCallback(async (githubUrl: string) => {
+    const canOpen = Linking.canOpenURL(githubUrl);
+    if (!canOpen) {
+      return;
+    }
 
-      await Linking.openURL(githubUrl);
-    },
-    [],
-  );
+    await Linking.openURL(githubUrl);
+  }, []);
 
   const renderItem = useCallback<ListRenderItem<StargazerEntity>>(
     ({item}) => {
-      return (
-        <View style={styles.stargazerCard}>
-          <View style={styles.stargazerCardLeftContent}>
-            <Image
-              source={{uri: item.avatarUrl}}
-              style={styles.stargazerCardAvatar}
-            />
-            <Text style={styles.stargazerCardName}>{item.name}</Text>
-          </View>
-          <View style={styles.stargazerCardRightContent}>
-            <TouchableOpacity onPress={onOpenGithubUrl(item.homepage)}>
-              <Image
-                source={Images.share}
-                style={styles.stargazerCardShareIcon}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
+      return <StargazerCard item={item} onSharePress={onOpenGithubUrl} />;
     },
-    [
-      onOpenGithubUrl,
-      styles.stargazerCard,
-      styles.stargazerCardAvatar,
-      styles.stargazerCardLeftContent,
-      styles.stargazerCardName,
-      styles.stargazerCardRightContent,
-      styles.stargazerCardShareIcon,
-    ],
+    [onOpenGithubUrl],
   );
 
   const renderSeparator = useCallback(
