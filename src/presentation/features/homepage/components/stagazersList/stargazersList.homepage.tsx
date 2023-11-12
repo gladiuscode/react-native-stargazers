@@ -1,9 +1,18 @@
-import {FlatList, Image, ListRenderItem, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  Linking,
+  ListRenderItem,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {memo, useCallback} from 'react';
 import StargazerEntity from '../../../../../domain/entities/stargazer.entity';
 import useGetRepositoryStargazerApi from '../../../../hooks/useGetRepositoryStargazersApi/useGetRepositoryStargazersApi.hook';
 import useStyles from '../../../../providers/theme/useStyles.hook';
 import getHomepageStargazersStyles from './stargazersList.homepage.styles';
+import Images from '../../../../../assets/images/images.asset';
 
 interface Props {
   url: string;
@@ -15,22 +24,48 @@ const HomepageStargazers = memo<Props>(({url, size}) => {
 
   const {data, fetchNextPage} = useGetRepositoryStargazerApi(url);
 
+  const onOpenGithubUrl = useCallback(
+    (githubUrl: string) => async () => {
+      const canOpen = Linking.canOpenURL(githubUrl);
+      if (!canOpen) {
+        return;
+      }
+
+      await Linking.openURL(githubUrl);
+    },
+    [],
+  );
+
   const renderItem = useCallback<ListRenderItem<StargazerEntity>>(
     ({item}) => {
       return (
         <View style={styles.stargazerCard}>
-          <Image
-            source={{uri: item.avatarUrl}}
-            style={styles.stargazerCardAvatar}
-          />
-          <Text style={styles.stargazerCardName}>{item.name}</Text>
+          <View style={styles.stargazerCardLeftContent}>
+            <Image
+              source={{uri: item.avatarUrl}}
+              style={styles.stargazerCardAvatar}
+            />
+            <Text style={styles.stargazerCardName}>{item.name}</Text>
+          </View>
+          <View style={styles.stargazerCardRightContent}>
+            <TouchableOpacity onPress={onOpenGithubUrl(item.homepage)}>
+              <Image
+                source={Images.share}
+                style={styles.stargazerCardShareIcon}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       );
     },
     [
+      onOpenGithubUrl,
       styles.stargazerCard,
       styles.stargazerCardAvatar,
+      styles.stargazerCardLeftContent,
       styles.stargazerCardName,
+      styles.stargazerCardRightContent,
+      styles.stargazerCardShareIcon,
     ],
   );
 

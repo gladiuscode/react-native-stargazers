@@ -9,9 +9,13 @@ const getHomepageStargazersStyles = (defaults: StylesDefaults) => {
     stargazerCard: {
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'space-between',
       padding: defaults.spacing.m,
       borderWidth: 1,
       borderRadius: defaults.borderRadius.s,
+    },
+    stargazerCardLeftContent: {
+      marginRight: defaults.spacing.xxl,
     },
     stargazerCardAvatar: {
       width: 60,
@@ -21,6 +25,13 @@ const getHomepageStargazersStyles = (defaults: StylesDefaults) => {
     },
     stargazerCardName: {
       ...defaults.typography.styles.body,
+    },
+    stargazerCardRightContent: {
+      justifyContent: 'center',
+    },
+    stargazerCardShareIcon: {
+      width: 52,
+      height: 48,
     },
     separator: {
       marginBottom: defaults.spacing.s,
