@@ -3,17 +3,24 @@ import {StylesDefaults} from '../../providers/theme/useStyles.hook';
 
 const getHomepageStyles = ({palette, spacing, typography}: StylesDefaults) => {
   return StyleSheet.create({
-    container: {
+    safeArea: {
       flex: 1,
       backgroundColor: palette.background,
+    },
+    container: {
+      flex: 1,
       paddingTop: spacing.xl,
-      paddingHorizontal: spacing.xl,
     },
     header: {
       marginBottom: spacing.xxl,
+      paddingHorizontal: spacing.xl,
     },
     form: {
       marginBottom: spacing.xxl,
+      paddingHorizontal: spacing.xl,
+    },
+    separatorContainer: {
+      paddingHorizontal: spacing.xl,
     },
     separator: {
       height: 1,
@@ -32,6 +39,9 @@ const getHomepageStyles = ({palette, spacing, typography}: StylesDefaults) => {
     errorMessage: {
       ...typography.styles.body,
       color: palette.error,
+    },
+    listContainer: {
+      paddingHorizontal: spacing.xl,
     },
   });
 };

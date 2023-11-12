@@ -3,9 +3,11 @@ import {
   FlatListProps,
   Linking,
   ListRenderItem,
+  StyleProp,
   Text,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from 'react-native';
 import React, {memo, useCallback} from 'react';
 import StargazerEntity from '../../../../../domain/entities/stargazer.entity';
@@ -16,11 +18,12 @@ import getHomepageStargazersStyles from './stargazersList.homepage.styles';
 import {STARGAZER_CARD_HEIGHT} from '../../../../components/atoms/stargazerCard/stargazerCard.styles';
 
 interface Props {
+  style?: StyleProp<ViewStyle>;
   url: string;
   size: number;
 }
 
-const HomepageStargazers = memo<Props>(({url, size}) => {
+const HomepageStargazers = memo<Props>(({style, url, size}) => {
   const styles = useStyles(getHomepageStargazersStyles);
 
   const {data, loading, error, fetchNextPage, retry} =
@@ -92,7 +95,7 @@ const HomepageStargazers = memo<Props>(({url, size}) => {
   ]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <FlatList
         data={data}
         contentContainerStyle={styles.contentContainer}
