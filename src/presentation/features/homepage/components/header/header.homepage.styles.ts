@@ -14,6 +14,7 @@ const getHomepageHeaderStyles = (defaults: StylesDefaults) => {
     themeIcon: {
       resizeMode: 'contain',
       height: 32,
+      tintColor: defaults.palette.text,
     },
   });
 };

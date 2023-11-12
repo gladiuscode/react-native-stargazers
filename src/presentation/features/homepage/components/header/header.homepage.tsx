@@ -1,5 +1,12 @@
 import React, {memo, useCallback} from 'react';
-import { Image, StyleProp, Text, TouchableOpacity, View, ViewStyle } from "react-native";
+import {
+  Image,
+  StyleProp,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import Images from '../../../../../assets/images/images.asset';
 import {useAppTheme} from '../../../../providers/theme/theme.provider';
 import useStyles from '../../../../providers/theme/useStyles.hook';

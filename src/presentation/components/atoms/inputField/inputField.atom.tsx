@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import useStyles from '../../../providers/theme/useStyles.hook';
 import getInputFieldStyles from './inputField.styles';
+import {useAppTheme} from '../../../providers/theme/theme.provider';
 
 interface Props extends Pick<TextInputProps, 'returnKeyType'> {
   style?: StyleProp<ViewStyle>;
@@ -35,6 +36,7 @@ const InputField = memo(
       },
       ref,
     ) => {
+      const {variant} = useAppTheme();
       const styles = useStyles(getInputFieldStyles);
 
       const inputContainerStyle = useMemo(() => {
@@ -60,16 +62,18 @@ const InputField = memo(
         <View style={style}>
           <View style={inputContainerStyle}>
             <TextInput
+              style={styles.input}
               ref={ref}
               value={initialValue}
               placeholder={placeholder}
               placeholderTextColor={
                 errorMessage
                   ? styles.errorPlaceholderTextColor.color
-                  : undefined
+                  : styles.placeholderTextColor.color
               }
               autoCapitalize={'none'}
               returnKeyType={returnKeyType}
+              keyboardAppearance={variant}
               onChangeText={onLocalChangeText}
               onSubmitEditing={onLocalSubmit}
             />

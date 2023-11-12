@@ -6,7 +6,10 @@ const fontFamily = {};
 const typographyStyle = {
   h1: {
     fontSize: 32,
-  },
+  } as TextStyle,
+  h2: {
+    fontSize: 24,
+  } as TextStyle,
   body: {
     fontSize: 16,
   } as TextStyle,

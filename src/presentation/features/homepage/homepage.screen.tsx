@@ -19,7 +19,7 @@ const HomepageScreen = () => {
         </View>
         {loading ? (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size={'large'} />
+            <ActivityIndicator size={'large'} color={styles.loading.color} />
           </View>
         ) : null}
         {!repositoryEntity && error ? (

@@ -39,8 +39,11 @@ const getHomepageStargazersStyles = (defaults: StylesDefaults) => {
       ...defaults.typography.styles.body,
     },
     footer: {
+      marginTop: defaults.spacing.xxl,
       alignItems: 'flex-end',
       padding: defaults.spacing.m,
+      borderTopWidth: 1,
+      borderTopColor: defaults.palette.border,
     },
     footerNote: {
       ...defaults.typography.styles.caption,

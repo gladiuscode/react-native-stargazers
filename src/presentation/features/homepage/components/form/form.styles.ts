@@ -22,11 +22,13 @@ const getHomepageFormStyles = (defaults: StylesDefaults) => {
     searchButton: {
       padding: 12,
       borderWidth: 1,
-      borderRadius: 12,
+      borderRadius: defaults.borderRadius.m,
+      borderColor: defaults.palette.border,
     },
     searchImage: {
       width: 24,
       height: 24,
+      tintColor: defaults.palette.text,
     },
   });
 };

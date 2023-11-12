@@ -13,8 +13,12 @@ const getStargazerCardStyles = (defaults: StylesDefaults) => {
       paddingHorizontal: defaults.spacing.m,
       borderWidth: 1,
       borderRadius: defaults.borderRadius.s,
+      borderColor: defaults.palette.border,
     },
     stargazerCardLeftContent: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
       marginRight: defaults.spacing.xxl,
     },
     stargazerCardAvatar: {
@@ -24,7 +28,8 @@ const getStargazerCardStyles = (defaults: StylesDefaults) => {
       marginRight: defaults.spacing.m,
     },
     stargazerCardName: {
-      ...defaults.typography.styles.body,
+      flex: 1,
+      ...defaults.typography.styles.h2,
     },
     stargazerCardRightContent: {
       justifyContent: 'center',
@@ -32,6 +37,7 @@ const getStargazerCardStyles = (defaults: StylesDefaults) => {
     stargazerCardShareIcon: {
       width: 52,
       height: 48,
+      tintColor: defaults.palette.text,
     },
   });
 };

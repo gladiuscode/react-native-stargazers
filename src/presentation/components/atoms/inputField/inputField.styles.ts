@@ -6,8 +6,16 @@ const getInputFieldStyles = (defaults: StylesDefaults) => {
     inputContainer: {
       borderWidth: 1,
       borderRadius: defaults.borderRadius.s,
+      borderColor: defaults.palette.border,
       paddingVertical: defaults.spacing.s,
       paddingHorizontal: defaults.spacing.m,
+    },
+    input: {
+      ...defaults.typography.styles.body,
+      color: defaults.palette.text,
+    },
+    placeholderTextColor: {
+      color: defaults.palette.text,
     },
     errorInputContainer: {
       borderColor: defaults.palette.error,

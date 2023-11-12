@@ -31,6 +31,9 @@ const getHomepageStyles = ({palette, spacing, typography}: StylesDefaults) => {
       flex: 1,
       justifyContent: 'center',
     },
+    loading: {
+      color: palette.text,
+    },
     errorContainer: {
       flex: 1,
       justifyContent: 'center',
