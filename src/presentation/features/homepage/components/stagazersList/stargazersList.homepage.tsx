@@ -25,7 +25,7 @@ interface Props {
 const HomepageStargazers = memo<Props>(({url, size}) => {
   const styles = useStyles(getHomepageStargazersStyles);
 
-  const {data, fetchNextPage} = useGetRepositoryStargazerApi(url);
+  const {data, loading, fetchNextPage} = useGetRepositoryStargazerApi(url);
 
   const getItemLayout = useCallback<
     NonNullable<FlatListProps<StargazerEntity>['getItemLayout']>
@@ -88,13 +88,27 @@ const HomepageStargazers = memo<Props>(({url, size}) => {
     [styles.separator],
   );
 
+  const renderEmptyComponent = useCallback(() => {
+    if (loading) {
+      return null;
+    }
+
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyMessage}>No stargazers found</Text>
+      </View>
+    );
+  }, [loading, styles.emptyContainer, styles.emptyMessage]);
+
   return (
     <View style={styles.container}>
       <FlatList
         data={data}
+        contentContainerStyle={styles.contentContainer}
         renderItem={renderItem}
         onEndReached={fetchNextPage}
         getItemLayout={getItemLayout}
+        ListEmptyComponent={renderEmptyComponent}
         ItemSeparatorComponent={renderSeparator}
       />
       <View style={styles.footer}>

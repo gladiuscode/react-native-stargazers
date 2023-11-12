@@ -8,6 +8,9 @@ const getHomepageStargazersStyles = (defaults: StylesDefaults) => {
     container: {
       flex: 1,
     },
+    contentContainer: {
+      flexGrow: 1,
+    },
     stargazerCard: {
       height: STARGAZER_CARD_HEIGHT,
       flexDirection: 'row',
@@ -38,6 +41,14 @@ const getHomepageStargazersStyles = (defaults: StylesDefaults) => {
     },
     separator: {
       marginBottom: defaults.spacing.s,
+    },
+    emptyContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    emptyMessage: {
+      ...defaults.typography.styles.body,
     },
     footer: {
       alignItems: 'flex-end',
