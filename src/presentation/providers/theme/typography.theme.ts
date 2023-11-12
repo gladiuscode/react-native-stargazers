@@ -4,6 +4,9 @@ import {TextStyle} from 'react-native';
 const fontFamily = {};
 
 const typographyStyle = {
+  h1: {
+    fontSize: 32,
+  },
   body: {
     fontSize: 16,
   } as TextStyle,
