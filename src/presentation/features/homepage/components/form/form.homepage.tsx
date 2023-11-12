@@ -1,6 +1,7 @@
 import React, {memo, useCallback, useMemo, useState} from 'react';
 import {
   Image,
+  Keyboard,
   StyleProp,
   TouchableOpacity,
   View,
@@ -56,6 +57,8 @@ const HomepageForm = memo<Props>(({style, onSubmit}) => {
   );
 
   const onSearchPress = useCallback(() => {
+    Keyboard.dismiss();
+
     if (isInvalid) {
       setShowErrors(true);
       return;
