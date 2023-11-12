@@ -1,4 +1,6 @@
-const borderRadius = {};
+const borderRadius = {
+  s: 8,
+};
 
 export type BorderRadius = typeof borderRadius;
 
