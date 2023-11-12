@@ -14,7 +14,7 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
 
   const getStargazers = useCallback(
     async (url: string, page = 1) => {
-      console.log('[useGetRepositoryApi] - getStargazers', page);
+      setError(undefined);
 
       try {
         setLoading(true);

@@ -18,6 +18,8 @@ const useGetRepositoryApi = ({
   const enabled = owner && repository;
 
   const getRepository = useCallback(async () => {
+    setError(undefined);
+
     try {
       setData(await repositoryRepository.getRepository(owner!, repository!));
     } catch (e) {
