@@ -1,11 +1,13 @@
 const light = {
   background: '#ffffff',
   text: '#191818',
+  error: '#f43838',
 };
 
 const dark: typeof light = {
   background: '#ffffff',
   text: '#191818',
+  error: '#f43838',
 };
 
 const palette = {

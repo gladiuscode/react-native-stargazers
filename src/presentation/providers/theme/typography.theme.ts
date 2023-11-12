@@ -7,6 +7,9 @@ const typographyStyle = {
   body: {
     fontSize: 16,
   } as TextStyle,
+  caption: {
+    fontSize: 12,
+  },
 };
 
 /**

@@ -1,5 +1,5 @@
-import React, {memo, useCallback} from 'react';
-import {StyleProp, TextInput, View, ViewStyle} from 'react-native';
+import React, {memo, useCallback, useMemo} from 'react';
+import {StyleProp, Text, TextInput, View, ViewStyle} from 'react-native';
 import useStyles from '../../../providers/theme/useStyles.hook';
 import getInputFieldStyles from './inputField.styles';
 
@@ -8,12 +8,28 @@ interface Props {
   id?: string;
   initialValue?: string;
   placeholder?: string;
+  errorMessage?: string;
   onChangeText: (id: string, value: string) => void;
 }
 
 const InputField = memo<Props>(
-  ({style, id = 'input', initialValue, placeholder, onChangeText}) => {
+  ({
+    style,
+    id = 'input',
+    initialValue,
+    placeholder,
+    errorMessage,
+    onChangeText,
+  }) => {
     const styles = useStyles(getInputFieldStyles);
+
+    const inputContainerStyle = useMemo(() => {
+      if (!errorMessage) {
+        return styles.inputContainer;
+      }
+
+      return [styles.inputContainer, styles.errorInputContainer];
+    }, [errorMessage, styles.errorInputContainer, styles.inputContainer]);
 
     const onLocalChangeText = useCallback(
       (value: string) => {
@@ -23,13 +39,23 @@ const InputField = memo<Props>(
     );
 
     return (
-      <View style={[style, styles.container]}>
-        <TextInput
-          value={initialValue}
-          placeholder={placeholder}
-          autoCapitalize={'none'}
-          onChangeText={onLocalChangeText}
-        />
+      <View style={style}>
+        <View style={inputContainerStyle}>
+          <TextInput
+            value={initialValue}
+            placeholder={placeholder}
+            placeholderTextColor={
+              errorMessage ? styles.errorPlaceholderTextColor.color : undefined
+            }
+            autoCapitalize={'none'}
+            onChangeText={onLocalChangeText}
+          />
+        </View>
+        {errorMessage ? (
+          <View style={styles.errorMessageContainer}>
+            <Text style={styles.errorMessage}>{errorMessage}</Text>
+          </View>
+        ) : null}
       </View>
     );
   },
