@@ -1,6 +1,7 @@
 import useStyles from '../../providers/theme/useStyles.hook';
 import getHomepageStyles from './homepage.styles';
 import {useCallback, useState} from 'react';
+import useGetRepositoryApi from '../../hooks/useGetRepositoryApi/useGetRepositoryApi.hook';
 
 interface SearchPayload {
   owner?: string;
@@ -9,10 +10,16 @@ interface SearchPayload {
 
 const useHomepageFacade = () => {
   const styles = useStyles(getHomepageStyles);
-  const [, setSearchPayload] = useState<SearchPayload>({
+  const [searchPayload, setSearchPayload] = useState<SearchPayload>({
     owner: undefined,
     repository: undefined,
   });
+
+  const {
+    data: repositoryEntity,
+    loading,
+    error,
+  } = useGetRepositoryApi(searchPayload);
 
   const onSubmit = useCallback((owner: string, repository: string) => {
     setSearchPayload({
@@ -23,6 +30,9 @@ const useHomepageFacade = () => {
 
   return {
     styles,
+    repositoryEntity,
+    loading,
+    error,
     onSubmit,
   };
 };
