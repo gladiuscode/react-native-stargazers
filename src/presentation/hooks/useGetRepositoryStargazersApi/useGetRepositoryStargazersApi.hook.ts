@@ -1,17 +1,32 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {useRepositories} from '../../providers/repositories/repositories.provider';
 import StargazerEntity from '../../../domain/entities/stargazer.entity';
+import {useBanner} from '../../providers/banner/banner.provider';
 
 export const STARGAZERS_PER_PAGE = 50;
 
 const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
+  const {showBanner} = useBanner();
   const repositoryRepository = useRepositories().repository;
   const [data, setData] = useState<StargazerEntity[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
+  const isInitialFetchDone = useRef<boolean>(false);
 
   const enabled = !!repositoryUrl;
   const currentPage = Math.ceil(data.length / STARGAZERS_PER_PAGE);
+
+  const handleError = useCallback(
+    (message: string) => {
+      if (isInitialFetchDone) {
+        showBanner(message);
+        return;
+      }
+
+      setError(message);
+    },
+    [showBanner],
+  );
 
   const getStargazers = useCallback(
     async (url: string, page = 1) => {
@@ -27,17 +42,16 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
           );
 
         setData(prevData => [...prevData, ...nextStargazers]);
-      } catch (e) {
-        if (e instanceof Error) {
-          setError('Stargazers not found. Something went wrong.');
-          return;
+        if (!isInitialFetchDone.current) {
+          isInitialFetchDone.current = !!nextStargazers.length;
         }
-        setError('Something went wrong');
+      } catch (e) {
+        handleError('Stargazers not found. Something went wrong.');
       } finally {
         setLoading(false);
       }
     },
-    [repositoryRepository],
+    [handleError, repositoryRepository],
   );
 
   useEffect(() => {

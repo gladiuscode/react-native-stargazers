@@ -1,6 +1,7 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import RepositoryEntity from '../../../domain/entities/repository.entity';
 import {useRepositories} from '../../providers/repositories/repositories.provider';
+import {useBanner} from '../../providers/banner/banner.provider';
 
 interface UseGetRepositoryApiParams {
   owner?: string;
@@ -11,27 +12,40 @@ const useGetRepositoryApi = ({
   owner,
   repository,
 }: UseGetRepositoryApiParams) => {
+  const {showBanner} = useBanner();
   const repositoryRepository = useRepositories().repository;
   const [data, setData] = useState<RepositoryEntity>();
+  const isInitialFetchDone = useRef<boolean>(false);
   const [error, setError] = useState<string>();
 
   const enabled = owner && repository;
+
+  const handleError = useCallback(
+    (message: string) => {
+      if (isInitialFetchDone) {
+        showBanner(message);
+        return;
+      }
+
+      setError(message);
+    },
+    [showBanner],
+  );
 
   const getRepository = useCallback(async () => {
     setError(undefined);
 
     try {
       setData(await repositoryRepository.getRepository(owner!, repository!));
-    } catch (e) {
-      if (e instanceof Error) {
-        setError(
-          'Repository not found. Are you sure that both owner and repository exist?',
-        );
-        return;
+      if (!isInitialFetchDone.current) {
+        isInitialFetchDone.current = true;
       }
-      setError('Something went wrong');
+    } catch (e) {
+      handleError(
+        'Repository not found. Are you sure that both owner and repository exist?',
+      );
     }
-  }, [owner, repository, repositoryRepository]);
+  }, [handleError, owner, repository, repositoryRepository]);
 
   useEffect(() => {
     if (!enabled) {
