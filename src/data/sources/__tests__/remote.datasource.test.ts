@@ -1,4 +1,4 @@
-import {beforeEach, expect, it, jest} from '@jest/globals';
+import {beforeEach, describe, expect, it, jest} from '@jest/globals';
 import RemoteDatasourceImpl from '../remote.datasource';
 import {ClientApiCallConfig, IClientApi} from '../../api/client.api';
 
@@ -17,16 +17,34 @@ beforeEach(() => {
   mockedGetMethod.mockClear();
 });
 
-it('should have getRepository method', () => {
-  const expectedResult = 'getRepository';
+describe('remoteDatasource.getRepository method', () => {
+  it('should have getRepository method', () => {
+    const expectedResult = 'getRepository';
 
-  expect(remoteDatasource).toHaveProperty(expectedResult);
+    expect(remoteDatasource).toHaveProperty(expectedResult);
+  });
+
+  it('should have getRepository method that calls apiClient.get once', async () => {
+    const expectedResult = 1;
+
+    await remoteDatasource.getRepository('test', 'test');
+
+    expect(mockedGetMethod.mock.calls.length).toBe(expectedResult);
+  });
 });
 
-it('should have getRepository method that calls apiClient.get once', async () => {
-  const expectedResult = 1;
+describe('remoteDatasource.getRepositoryStargazers method', () => {
+  it('should have getRepositoryStargazers method', () => {
+    const expectedResult = 'getRepositoryStargazers';
 
-  await remoteDatasource.getRepository('test', 'test');
+    expect(remoteDatasource).toHaveProperty(expectedResult);
+  });
 
-  expect(mockedGetMethod.mock.calls.length).toBe(expectedResult);
+  it('should have getRepositoryStargazers method that calls apiClient.get once', async () => {
+    const expectedResult = 1;
+
+    await remoteDatasource.getRepositoryStargazers('test');
+
+    expect(mockedGetMethod.mock.calls.length).toBe(expectedResult);
+  });
 });

@@ -1,8 +1,11 @@
 import {IRemoteDatasource} from '../sources/remote.datasource';
 import RepositoryEntity from '../../domain/entities/repository.entity';
+import StargazerEntity from '../../domain/entities/stargazer.entity';
+import configEnv from '../../../envs/config.env';
 
 export interface IRepositoryRepository {
   getRepository(owner: string, repository: string): Promise<RepositoryEntity>;
+  getRepositoryStargazers(repositoryUrl: string): Promise<StargazerEntity[]>;
 }
 
 class RepositoryRepositoryImpl implements IRepositoryRepository {
@@ -14,6 +17,15 @@ class RepositoryRepositoryImpl implements IRepositoryRepository {
   ): Promise<RepositoryEntity> {
     const data = await this._remoteDatasource.getRepository(owner, repository);
     return new RepositoryEntity(data.stargazers_url);
+  }
+
+  async getRepositoryStargazers(
+    repositoryUrl: string,
+  ): Promise<StargazerEntity[]> {
+    const data = await this._remoteDatasource.getRepositoryStargazers(
+      repositoryUrl.replace(configEnv.API_BASE_URL!, ''),
+    );
+    return data.map(item => new StargazerEntity(item.avatar_url, item.login));
   }
 }
 
