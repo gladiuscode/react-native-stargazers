@@ -1,12 +1,13 @@
 import React from 'react';
-import {ActivityIndicator, View} from 'react-native';
+import {ActivityIndicator, Text, View} from 'react-native';
 import HomepageForm from './components/form/form.homepage';
 import HomepageHeader from './components/header/header.homepage';
 import useHomepageFacade from './useHomepage.facade';
 import HomepageStargazers from './components/stagazersList/stargazersList.homepage';
 
 const HomepageScreen = () => {
-  const {styles, repositoryEntity, loading, onSubmit} = useHomepageFacade();
+  const {styles, repositoryEntity, loading, error, onSubmit} =
+    useHomepageFacade();
 
   return (
     <View style={styles.container}>
@@ -16,6 +17,11 @@ const HomepageScreen = () => {
       {loading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size={'large'} />
+        </View>
+      ) : null}
+      {!repositoryEntity && error ? (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorMessage}>{error}</Text>
         </View>
       ) : null}
       {repositoryEntity ? (

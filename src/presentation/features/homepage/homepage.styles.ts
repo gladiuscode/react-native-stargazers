@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {StylesDefaults} from '../../providers/theme/useStyles.hook';
 
-const getHomepageStyles = ({palette, spacing}: StylesDefaults) => {
+const getHomepageStyles = ({palette, spacing, typography}: StylesDefaults) => {
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -23,6 +23,15 @@ const getHomepageStyles = ({palette, spacing}: StylesDefaults) => {
     loadingContainer: {
       flex: 1,
       justifyContent: 'center',
+    },
+    errorContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    errorMessage: {
+      ...typography.styles.body,
+      color: palette.error,
     },
   });
 };

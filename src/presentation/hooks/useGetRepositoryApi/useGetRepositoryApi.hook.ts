@@ -22,7 +22,10 @@ const useGetRepositoryApi = ({
       setData(await repositoryRepository.getRepository(owner!, repository!));
     } catch (e) {
       if (e instanceof Error) {
-        setError(e.message);
+        setError(
+          'Repository not found. Are you sure that both owner and repository exist?',
+        );
+        return;
       }
       setError('Something went wrong');
     }
