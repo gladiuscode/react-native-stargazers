@@ -1,9 +1,16 @@
 import React, {forwardRef, memo, useCallback, useMemo} from 'react';
-import {StyleProp, Text, TextInput, View, ViewStyle} from 'react-native';
+import {
+  StyleProp,
+  Text,
+  TextInput,
+  TextInputProps,
+  View,
+  ViewStyle,
+} from 'react-native';
 import useStyles from '../../../providers/theme/useStyles.hook';
 import getInputFieldStyles from './inputField.styles';
 
-interface Props {
+interface Props extends Pick<TextInputProps, 'returnKeyType'> {
   style?: StyleProp<ViewStyle>;
   id?: string;
   initialValue?: string;
@@ -22,6 +29,7 @@ const InputField = memo(
         initialValue,
         placeholder,
         errorMessage,
+        returnKeyType,
         onChangeText,
         onSubmit,
       },
@@ -61,6 +69,7 @@ const InputField = memo(
                   : undefined
               }
               autoCapitalize={'none'}
+              returnKeyType={returnKeyType}
               onChangeText={onLocalChangeText}
               onSubmitEditing={onLocalSubmit}
             />

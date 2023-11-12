@@ -87,6 +87,7 @@ const HomepageForm = memo<Props>(({style, onSubmit}) => {
           initialValue={form.owner}
           placeholder={'Owner*'}
           errorMessage={getErrorMessageOf('owner')}
+          returnKeyType={'next'}
           onChangeText={onChangeText}
           onSubmit={onInputSubmit}
         />
