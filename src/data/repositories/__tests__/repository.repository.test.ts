@@ -7,7 +7,7 @@ import GetRepositoryStargazersResponse from '../../sources/responses/getReposito
 import StargazerEntity from '../../../domain/entities/stargazer.entity';
 
 const mockedRepositoryEntity = new RepositoryEntity(1, 'test');
-const mockedStargazerEntity = new StargazerEntity('test_url', 'test');
+const mockedStargazerEntity = new StargazerEntity(1, 'test_url', 'test');
 
 const mockedGetRepositoryMethod = jest.fn(
   (_: string, __: string): Promise<GetRepositoryResponse> => {
@@ -25,6 +25,7 @@ const mockedGetRepositoryStargazersMethod = jest.fn(
   ): Promise<GetRepositoryStargazersResponse[]> => {
     return Promise.resolve([
       {
+        id: mockedStargazerEntity.id,
         login: mockedStargazerEntity.name,
         avatar_url: mockedStargazerEntity.avatarUrl,
       },
@@ -121,6 +122,7 @@ describe('repositoryRepository.getRepositoryStargazers method', () => {
   it('should have getRepositoryStargazers method that calls remoteDatasource.getRepositoryStargazers once with provided arguments and returns an array with StargazerEntity elements type', async () => {
     const expectedResult = [
       new StargazerEntity(
+        mockedStargazerEntity.id,
         mockedStargazerEntity.avatarUrl,
         mockedStargazerEntity.name,
       ),
