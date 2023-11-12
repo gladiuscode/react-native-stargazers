@@ -1,8 +1,9 @@
-import React, {memo, useCallback, useMemo, useState} from 'react';
+import React, {memo, useCallback, useMemo, useRef, useState} from 'react';
 import {
   Image,
   Keyboard,
   StyleProp,
+  TextInput,
   TouchableOpacity,
   View,
   ViewStyle,
@@ -26,6 +27,8 @@ const HomepageForm = memo<Props>(({style, onSubmit}) => {
   const styles = useStyles(getHomepageFormStyles);
   const [form, setForm] = useState<Form>({});
   const [showErrors, setShowErrors] = useState(false);
+
+  const repositoryInputRef = useRef<TextInput>(null);
 
   const isInvalid = useMemo(
     () => !form.owner || !form.repository,
@@ -56,6 +59,13 @@ const HomepageForm = memo<Props>(({style, onSubmit}) => {
     [],
   );
 
+  const onInputSubmit = useCallback((id: string) => {
+    if (id === 'owner') {
+      repositoryInputRef.current?.focus();
+      return;
+    }
+  }, []);
+
   const onSearchPress = useCallback(() => {
     Keyboard.dismiss();
 
@@ -78,8 +88,10 @@ const HomepageForm = memo<Props>(({style, onSubmit}) => {
           placeholder={'Owner*'}
           errorMessage={getErrorMessageOf('owner')}
           onChangeText={onChangeText}
+          onSubmit={onInputSubmit}
         />
         <InputField
+          ref={repositoryInputRef}
           id={'repository'}
           initialValue={form.repository}
           placeholder={'Repository*'}

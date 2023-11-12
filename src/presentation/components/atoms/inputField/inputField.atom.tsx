@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useMemo} from 'react';
+import React, {forwardRef, memo, useCallback, useMemo} from 'react';
 import {StyleProp, Text, TextInput, View, ViewStyle} from 'react-native';
 import useStyles from '../../../providers/theme/useStyles.hook';
 import getInputFieldStyles from './inputField.styles';
@@ -10,55 +10,70 @@ interface Props {
   placeholder?: string;
   errorMessage?: string;
   onChangeText: (id: string, value: string) => void;
+  onSubmit?: (id: string) => void;
 }
 
-const InputField = memo<Props>(
-  ({
-    style,
-    id = 'input',
-    initialValue,
-    placeholder,
-    errorMessage,
-    onChangeText,
-  }) => {
-    const styles = useStyles(getInputFieldStyles);
-
-    const inputContainerStyle = useMemo(() => {
-      if (!errorMessage) {
-        return styles.inputContainer;
-      }
-
-      return [styles.inputContainer, styles.errorInputContainer];
-    }, [errorMessage, styles.errorInputContainer, styles.inputContainer]);
-
-    const onLocalChangeText = useCallback(
-      (value: string) => {
-        onChangeText(id, value);
+const InputField = memo(
+  forwardRef<TextInput, Props>(
+    (
+      {
+        style,
+        id = 'input',
+        initialValue,
+        placeholder,
+        errorMessage,
+        onChangeText,
+        onSubmit,
       },
-      [id, onChangeText],
-    );
+      ref,
+    ) => {
+      const styles = useStyles(getInputFieldStyles);
 
-    return (
-      <View style={style}>
-        <View style={inputContainerStyle}>
-          <TextInput
-            value={initialValue}
-            placeholder={placeholder}
-            placeholderTextColor={
-              errorMessage ? styles.errorPlaceholderTextColor.color : undefined
-            }
-            autoCapitalize={'none'}
-            onChangeText={onLocalChangeText}
-          />
-        </View>
-        {errorMessage ? (
-          <View style={styles.errorMessageContainer}>
-            <Text style={styles.errorMessage}>{errorMessage}</Text>
+      const inputContainerStyle = useMemo(() => {
+        if (!errorMessage) {
+          return styles.inputContainer;
+        }
+
+        return [styles.inputContainer, styles.errorInputContainer];
+      }, [errorMessage, styles.errorInputContainer, styles.inputContainer]);
+
+      const onLocalChangeText = useCallback(
+        (value: string) => {
+          onChangeText(id, value);
+        },
+        [id, onChangeText],
+      );
+
+      const onLocalSubmit = useCallback(() => {
+        onSubmit?.(id);
+      }, [id, onSubmit]);
+
+      return (
+        <View style={style}>
+          <View style={inputContainerStyle}>
+            <TextInput
+              ref={ref}
+              value={initialValue}
+              placeholder={placeholder}
+              placeholderTextColor={
+                errorMessage
+                  ? styles.errorPlaceholderTextColor.color
+                  : undefined
+              }
+              autoCapitalize={'none'}
+              onChangeText={onLocalChangeText}
+              onSubmitEditing={onLocalSubmit}
+            />
           </View>
-        ) : null}
-      </View>
-    );
-  },
+          {errorMessage ? (
+            <View style={styles.errorMessageContainer}>
+              <Text style={styles.errorMessage}>{errorMessage}</Text>
+            </View>
+          ) : null}
+        </View>
+      );
+    },
+  ),
 );
 
 export default InputField;
