@@ -4,6 +4,7 @@ import {
   Linking,
   ListRenderItem,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {memo, useCallback} from 'react';
@@ -22,7 +23,8 @@ interface Props {
 const HomepageStargazers = memo<Props>(({url, size}) => {
   const styles = useStyles(getHomepageStargazersStyles);
 
-  const {data, loading, fetchNextPage} = useGetRepositoryStargazerApi(url);
+  const {data, loading, error, fetchNextPage, retry} =
+    useGetRepositoryStargazerApi(url);
 
   const getItemLayout = useCallback<
     NonNullable<FlatListProps<StargazerEntity>['getItemLayout']>
@@ -61,12 +63,33 @@ const HomepageStargazers = memo<Props>(({url, size}) => {
       return null;
     }
 
+    if (error) {
+      return (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorMessage}>{error}</Text>
+          <TouchableOpacity style={styles.errorButton} onPress={retry}>
+            <Text style={styles.errorButtonMessage}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyMessage}>No stargazers found</Text>
       </View>
     );
-  }, [loading, styles.emptyContainer, styles.emptyMessage]);
+  }, [
+    error,
+    loading,
+    retry,
+    styles.emptyContainer,
+    styles.emptyMessage,
+    styles.errorButton,
+    styles.errorButtonMessage,
+    styles.errorContainer,
+    styles.errorMessage,
+  ]);
 
   return (
     <View style={styles.container}>

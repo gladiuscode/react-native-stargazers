@@ -11,6 +11,7 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
   const [error, setError] = useState<string>();
 
   const enabled = !!repositoryUrl;
+  const currentPage = Math.ceil(data.length / STARGAZERS_PER_PAGE);
 
   const getStargazers = useCallback(
     async (url: string, page = 1) => {
@@ -28,7 +29,8 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
         setData(prevData => [...prevData, ...nextStargazers]);
       } catch (e) {
         if (e instanceof Error) {
-          setError(e.message);
+          setError('Stargazers not found. Something went wrong.');
+          return;
         }
         setError('Something went wrong');
       } finally {
@@ -59,16 +61,19 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
       return;
     }
 
-    const currentPage = Math.ceil(data.length / STARGAZERS_PER_PAGE);
-
     getStargazers(repositoryUrl, currentPage + 1).then();
-  }, [data, enabled, getStargazers, loading, repositoryUrl]);
+  }, [currentPage, data, enabled, getStargazers, loading, repositoryUrl]);
+
+  const retry = useCallback(async () => {
+    await getStargazers(repositoryUrl, currentPage);
+  }, [currentPage, getStargazers, repositoryUrl]);
 
   return {
     data,
     loading,
     error,
     fetchNextPage,
+    retry,
   };
 };
 

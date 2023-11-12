@@ -20,6 +20,24 @@ const getHomepageStargazersStyles = (defaults: StylesDefaults) => {
     emptyMessage: {
       ...defaults.typography.styles.body,
     },
+    errorContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    errorMessage: {
+      ...defaults.typography.styles.body,
+      color: defaults.palette.error,
+      marginBottom: defaults.spacing.m,
+    },
+    errorButton: {
+      padding: defaults.spacing.m,
+      borderWidth: 1,
+      borderRadius: defaults.borderRadius.s,
+    },
+    errorButtonMessage: {
+      ...defaults.typography.styles.body,
+    },
     footer: {
       alignItems: 'flex-end',
       padding: defaults.spacing.m,
