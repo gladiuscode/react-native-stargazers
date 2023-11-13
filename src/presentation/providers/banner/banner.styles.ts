@@ -1,7 +1,7 @@
 import {StyleSheet, TextStyle, ViewStyle} from 'react-native';
 import {StylesDefaults} from '../theme/useStyles.hook';
 
-const getErrorBannerProviderStyles = (defaults: StylesDefaults) => {
+const getBannerContainer = (defaults: StylesDefaults) => {
   const container: ViewStyle = {
     top: 60,
     width: '90%',
@@ -50,4 +50,4 @@ const getErrorBannerProviderStyles = (defaults: StylesDefaults) => {
   });
 };
 
-export default getErrorBannerProviderStyles;
+export default getBannerContainer;

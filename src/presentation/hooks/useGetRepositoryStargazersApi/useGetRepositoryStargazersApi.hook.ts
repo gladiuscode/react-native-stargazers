@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {useRepositories} from '../../providers/repositories/repositories.container';
 import StargazerEntity from '../../../domain/entities/stargazer.entity';
-import {useBanner} from '../../providers/banner/banner.provider';
+import {useBanner} from '../../providers/banner/banner.container';
 
 export const STARGAZERS_PER_PAGE = 50;
 

@@ -7,13 +7,14 @@ import React, {
 } from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import useStyles from '../theme/useStyles.hook';
-import getErrorBannerProviderStyles from './banner.styles';
+import getBannerContainer from './banner.styles';
 
 interface BannerContext {
   showBanner(message: string, type?: BannerType): void;
 }
 
-const [useBanner, Provider] = contextFactory<BannerContext>('BannerContext');
+const [useBanner, BannerProvider] =
+  contextFactory<BannerContext>('BannerContext');
 export {useBanner};
 
 export enum BannerType {
@@ -26,8 +27,8 @@ interface Banner {
   type: BannerType;
 }
 
-const ErrorBannerProvider: React.FC<PropsWithChildren> = ({children}) => {
-  const styles = useStyles(getErrorBannerProviderStyles);
+const BannerContainer: React.FC<PropsWithChildren> = ({children}) => {
+  const styles = useStyles(getBannerContainer);
 
   const [banner, setBanner] = useState<Banner>();
 
@@ -63,7 +64,7 @@ const ErrorBannerProvider: React.FC<PropsWithChildren> = ({children}) => {
   }, [banner]);
 
   return (
-    <Provider
+    <BannerProvider
       value={{
         showBanner,
       }}>
@@ -77,8 +78,8 @@ const ErrorBannerProvider: React.FC<PropsWithChildren> = ({children}) => {
         </View>
       )}
       {children}
-    </Provider>
+    </BannerProvider>
   );
 };
 
-export default ErrorBannerProvider;
+export default BannerContainer;

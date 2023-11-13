@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import RepositoryEntity from '../../../domain/entities/repository.entity';
 import {useRepositories} from '../../providers/repositories/repositories.container';
-import {useBanner} from '../../providers/banner/banner.provider';
+import {useBanner} from '../../providers/banner/banner.container';
 
 interface UseGetRepositoryApiParams {
   owner?: string;
