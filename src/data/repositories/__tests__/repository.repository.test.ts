@@ -1,55 +1,15 @@
-import {beforeEach, describe, expect, it, jest} from '@jest/globals';
+import {beforeEach, describe, expect, it} from '@jest/globals';
 import RepositoryRepositoryImpl from '../repository.repository';
-import {IRemoteDatasource} from '../../sources/remote.datasource';
-import GetRepositoryResponse from '../../sources/responses/getRepository.response';
 import RepositoryEntity from '../../../domain/entities/repository.entity';
-import GetRepositoryStargazersResponse from '../../sources/responses/getRepositoryStargazers.response';
 import StargazerEntity from '../../../domain/entities/stargazer.entity';
+import RemoteDatasourceMock from '../../../../__mocks__/remote.datasource';
 
-const mockedRepositoryEntity = new RepositoryEntity(1, 'test');
-const mockedStargazerEntity = new StargazerEntity(
-  1,
-  'test_url',
-  'test',
-  'test',
-);
-
-const mockedGetRepositoryMethod = jest.fn(
-  (_: string, __: string): Promise<GetRepositoryResponse> => {
-    return Promise.resolve({
-      stargazers_url: mockedRepositoryEntity.stargazers_url,
-    } as GetRepositoryResponse);
-  },
-);
-
-const mockedGetRepositoryStargazersMethod = jest.fn(
-  (
-    _: string,
-    __: number,
-    ___: number,
-  ): Promise<GetRepositoryStargazersResponse[]> => {
-    return Promise.resolve([
-      {
-        id: mockedStargazerEntity.id,
-        login: mockedStargazerEntity.name,
-        avatar_url: mockedStargazerEntity.avatarUrl,
-        html_url: mockedStargazerEntity.homepage,
-      },
-    ] as GetRepositoryStargazersResponse[]);
-  },
-);
-
-const mockedRemoteDatasource: IRemoteDatasource = {
-  getRepository: mockedGetRepositoryMethod,
-  getRepositoryStargazers: mockedGetRepositoryStargazersMethod,
-};
-const repositoryRepository = new RepositoryRepositoryImpl(
-  mockedRemoteDatasource,
-);
+const remoteDatasourceMock = new RemoteDatasourceMock();
+const repositoryRepository = new RepositoryRepositoryImpl(remoteDatasourceMock);
 
 beforeEach(() => {
-  mockedGetRepositoryMethod.mockClear();
-  mockedGetRepositoryStargazersMethod.mockClear();
+  remoteDatasourceMock.getRepository.mockClear();
+  remoteDatasourceMock.getRepositoryStargazers.mockClear();
 });
 
 describe('repositoryRepository.getRepository method', () => {
@@ -64,7 +24,9 @@ describe('repositoryRepository.getRepository method', () => {
 
     await repositoryRepository.getRepository('test', 'test');
 
-    expect(mockedGetRepositoryMethod.mock.calls.length).toBe(expectedResult);
+    expect(remoteDatasourceMock.getRepository.mock.calls.length).toBe(
+      expectedResult,
+    );
   });
 
   it('should have getRepository method that calls remoteDatasource.getRepository once with provided arguments', async () => {
@@ -74,19 +36,17 @@ describe('repositoryRepository.getRepository method', () => {
 
     await repositoryRepository.getRepository(firstInput, lastInput);
 
-    expect(mockedGetRepositoryMethod.mock.calls.at(0)?.at(0)).toBe(
-      expectedResult.at(0),
-    );
-    expect(mockedGetRepositoryMethod.mock.calls.at(0)?.at(1)).toBe(
-      expectedResult.at(1),
+    expect(remoteDatasourceMock.getRepository.mock.calls.at(0)).toStrictEqual(
+      expectedResult,
     );
   });
 
   it('should have getRepository method that calls remoteDatasource.getRepository once with provided arguments and returns a RepositoryEntity', async () => {
-    const expectedResult = new RepositoryEntity(
-      mockedRepositoryEntity.stargazers_count,
-      mockedRepositoryEntity.stargazers_url,
-    );
+    const expectedResult = new RepositoryEntity(1, 'test');
+
+    remoteDatasourceMock.setGetRepositoryResponse({
+      stargazers_url: expectedResult.stargazers_url,
+    });
 
     const result = await repositoryRepository.getRepository('', '');
 
@@ -107,7 +67,7 @@ describe('repositoryRepository.getRepositoryStargazers method', () => {
 
     await repositoryRepository.getRepositoryStargazers('test');
 
-    expect(mockedGetRepositoryStargazersMethod.mock.calls.length).toBe(
+    expect(remoteDatasourceMock.getRepositoryStargazers.mock.calls.length).toBe(
       expectedResult,
     );
   });
@@ -120,20 +80,24 @@ describe('repositoryRepository.getRepositoryStargazers method', () => {
 
     await repositoryRepository.getRepositoryStargazers(firstInput);
 
-    expect(mockedGetRepositoryStargazersMethod.mock.calls.at(0)).toStrictEqual(
-      expectedResult,
-    );
+    expect(
+      remoteDatasourceMock.getRepositoryStargazers.mock.calls.at(0),
+    ).toStrictEqual(expectedResult);
   });
 
   it('should have getRepositoryStargazers method that calls remoteDatasource.getRepositoryStargazers once with provided arguments and returns an array with StargazerEntity elements type', async () => {
     const expectedResult = [
-      new StargazerEntity(
-        mockedStargazerEntity.id,
-        mockedStargazerEntity.avatarUrl,
-        mockedStargazerEntity.name,
-        mockedStargazerEntity.homepage,
-      ),
+      new StargazerEntity(1, 'avatarTest', 'test', 'homepageTest'),
     ];
+
+    remoteDatasourceMock.setGetRepositoryStargazersResponse([
+      {
+        id: 1,
+        avatar_url: 'avatarTest',
+        login: 'test',
+        html_url: 'homepageTest',
+      },
+    ]);
 
     const result = await repositoryRepository.getRepositoryStargazers('');
 
