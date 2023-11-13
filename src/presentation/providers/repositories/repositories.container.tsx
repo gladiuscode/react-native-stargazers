@@ -11,12 +11,11 @@ export interface RepositoriesContext {
   repository: IRepositoryRepository;
 }
 
-const [useRepositories, Provider] = contextFactory<RepositoriesContext>(
-  'RepositoriesContext',
-);
-export {useRepositories};
+const [useRepositories, RepositoriesProvider] =
+  contextFactory<RepositoriesContext>('RepositoriesContext');
+export {useRepositories, RepositoriesProvider};
 
-const RepositoriesProvider: React.FC<PropsWithChildren> = ({children}) => {
+const RepositoriesContainer: React.FC<PropsWithChildren> = ({children}) => {
   const clientApi = useRef(new ClientApi(configEnv.API_BASE_URL!));
   const remoteDatasource = useRef(new RemoteDatasourceImpl(clientApi.current));
   const repository = useRef(
@@ -30,7 +29,7 @@ const RepositoriesProvider: React.FC<PropsWithChildren> = ({children}) => {
     [],
   );
 
-  return <Provider value={value}>{children}</Provider>;
+  return <RepositoriesProvider value={value}>{children}</RepositoriesProvider>;
 };
 
-export default RepositoriesProvider;
+export default RepositoriesContainer;

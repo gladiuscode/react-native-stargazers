@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import RepositoryEntity from '../../../domain/entities/repository.entity';
-import {useRepositories} from '../../providers/repositories/repositories.provider';
+import {useRepositories} from '../../providers/repositories/repositories.container';
 import {useBanner} from '../../providers/banner/banner.provider';
 
 interface UseGetRepositoryApiParams {
