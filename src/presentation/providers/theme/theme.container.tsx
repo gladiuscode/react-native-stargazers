@@ -15,10 +15,11 @@ export interface ThemeContext {
   readonly onVariantChange: (variant: PaletteVariant) => void;
 }
 
-const [useAppTheme, Provider] = contextFactory<ThemeContext>('ThemeContext');
-export {useAppTheme};
+const [useAppTheme, ThemeProvider] =
+  contextFactory<ThemeContext>('ThemeContext');
+export {useAppTheme, ThemeProvider};
 
-const ThemeProvider: React.FC<PropsWithChildren> = ({children}) => {
+const ThemeContainer: React.FC<PropsWithChildren> = ({children}) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const updateStatusBar = useCallback((variant: PaletteVariant) => {
@@ -56,7 +57,7 @@ const ThemeProvider: React.FC<PropsWithChildren> = ({children}) => {
     [onVariantChange, variant],
   );
 
-  return <Provider value={value}>{children}</Provider>;
+  return <ThemeProvider value={value}>{children}</ThemeProvider>;
 };
 
-export default ThemeProvider;
+export default ThemeContainer;

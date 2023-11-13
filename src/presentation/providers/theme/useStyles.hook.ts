@@ -1,5 +1,5 @@
 import {useMemo} from 'react';
-import {ThemeContext, useAppTheme} from './theme.provider';
+import {ThemeContext, useAppTheme} from './theme.container';
 
 export type StylesDefaults = Omit<ThemeContext, 'onVariantChange' | 'variant'>;
 

@@ -8,7 +8,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import Images from '../../../../../assets/images/images.asset';
-import {useAppTheme} from '../../../../providers/theme/theme.provider';
+import {useAppTheme} from '../../../../providers/theme/theme.container';
 import useStyles from '../../../../providers/theme/useStyles.hook';
 import getHomepageHeaderStyles from './header.homepage.styles';
 

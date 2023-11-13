@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import useStyles from '../../../providers/theme/useStyles.hook';
 import getInputFieldStyles from './inputField.styles';
-import {useAppTheme} from '../../../providers/theme/theme.provider';
+import {useAppTheme} from '../../../providers/theme/theme.container';
 
 interface Props extends Pick<TextInputProps, 'returnKeyType'> {
   style?: StyleProp<ViewStyle>;

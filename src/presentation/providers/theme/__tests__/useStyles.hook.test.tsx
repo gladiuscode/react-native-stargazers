@@ -3,7 +3,7 @@ import React, {ComponentType, PropsWithChildren} from 'react';
 import {renderHook} from '@testing-library/react-native';
 import {Mock, UnknownFunction} from 'jest-mock';
 import useStyles from '../useStyles.hook';
-import ThemeProvider from '../theme.provider';
+import ThemeContainer from '../theme.container';
 
 let getStyles: Mock<UnknownFunction>;
 
@@ -12,7 +12,7 @@ beforeEach(() => {
 });
 
 const wrapper: ComponentType<PropsWithChildren> = ({children}) => (
-  <ThemeProvider>{children}</ThemeProvider>
+  <ThemeContainer>{children}</ThemeContainer>
 );
 
 it('should call the callback passed as argument', () => {
