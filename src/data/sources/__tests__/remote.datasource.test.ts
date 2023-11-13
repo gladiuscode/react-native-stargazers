@@ -1,20 +1,13 @@
-import {beforeEach, describe, expect, it, jest} from '@jest/globals';
+import {beforeEach, describe, expect, it} from '@jest/globals';
 import RemoteDatasourceImpl from '../remote.datasource';
-import {ClientApiCallConfig, IClientApi} from '../../api/client.api';
+import ClientApiMock from '../../../../__mocks__/client.api';
+import {IClientApi} from '../../api/client.api';
 
-const mockedResponse = {test: 'test'};
-const mockedGetMethod = jest.fn(
-  async <T>(_: string, __?: ClientApiCallConfig) => {
-    return Promise.resolve<T>(mockedResponse as T);
-  },
-);
-const mockedApiClient: IClientApi = {
-  get: mockedGetMethod as IClientApi['get'],
-};
-const remoteDatasource = new RemoteDatasourceImpl(mockedApiClient);
+const clientApiMock = new ClientApiMock('test');
+const remoteDatasource = new RemoteDatasourceImpl(clientApiMock as IClientApi);
 
 beforeEach(() => {
-  mockedGetMethod.mockClear();
+  clientApiMock.get.mockClear();
 });
 
 describe('remoteDatasource.getRepository method', () => {
@@ -29,7 +22,7 @@ describe('remoteDatasource.getRepository method', () => {
 
     await remoteDatasource.getRepository('test', 'test');
 
-    expect(mockedGetMethod.mock.calls.length).toBe(expectedResult);
+    expect(clientApiMock.get.mock.calls.length).toBe(expectedResult);
   });
 });
 
@@ -45,6 +38,6 @@ describe('remoteDatasource.getRepositoryStargazers method', () => {
 
     await remoteDatasource.getRepositoryStargazers('test');
 
-    expect(mockedGetMethod.mock.calls.length).toBe(expectedResult);
+    expect(clientApiMock.get.mock.calls.length).toBe(expectedResult);
   });
 });
