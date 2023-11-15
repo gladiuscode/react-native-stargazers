@@ -22,7 +22,7 @@ const useGetRepositoryApi = ({
 
   const handleError = useCallback(
     (message: string) => {
-      if (isInitialFetchDone) {
+      if (isInitialFetchDone.current) {
         showBanner(message);
         return;
       }

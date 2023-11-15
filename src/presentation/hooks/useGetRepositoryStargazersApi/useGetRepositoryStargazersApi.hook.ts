@@ -18,7 +18,8 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
 
   const handleError = useCallback(
     (message: string) => {
-      if (isInitialFetchDone) {
+      if (isInitialFetchDone.current) {
+        console.log('showBanner');
         showBanner(message);
         return;
       }
