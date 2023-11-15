@@ -8,6 +8,7 @@ const light = {
   successSurface: 'rgb(213,255,213)',
   divider: '#a4a4a4',
   border: '#191818',
+  shadow: '#000',
 };
 
 const dark: typeof light = {
@@ -20,6 +21,7 @@ const dark: typeof light = {
   successSurface: 'rgb(213,255,213)',
   divider: '#a4a4a4',
   border: '#f1f1f1',
+  shadow: '#fff',
 };
 
 const palette = {

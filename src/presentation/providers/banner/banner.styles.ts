@@ -13,7 +13,7 @@ const getBannerContainer = (defaults: StylesDefaults) => {
     borderWidth: 1,
     borderRadius: defaults.borderRadius.s,
 
-    shadowColor: '#000',
+    shadowColor: defaults.palette.shadow,
     shadowOffset: {
       width: 0,
       height: 3,
