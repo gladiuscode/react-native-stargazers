@@ -11,6 +11,18 @@ const getHomepageHeaderStyles = (defaults: StylesDefaults) => {
     title: {
       ...defaults.typography.styles.h1,
     },
+    buttonsContainer: {
+      flexDirection: 'row',
+    },
+    languageButton: {
+      borderBottomWidth: 1,
+      borderColor: defaults.palette.border,
+      marginRight: defaults.spacing.xl,
+    },
+    language: {
+      ...defaults.typography.styles.h2,
+      textTransform: 'uppercase',
+    },
     themeIcon: {
       resizeMode: 'contain',
       height: 32,
