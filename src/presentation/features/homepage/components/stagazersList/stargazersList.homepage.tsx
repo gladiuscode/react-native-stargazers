@@ -97,6 +97,7 @@ const HomepageStargazers = memo<Props>(({style, url, size}) => {
   return (
     <View style={[styles.container, style]}>
       <FlatList
+        testID={'stargazers-list'}
         data={data}
         contentContainerStyle={styles.contentContainer}
         renderItem={renderItem}
