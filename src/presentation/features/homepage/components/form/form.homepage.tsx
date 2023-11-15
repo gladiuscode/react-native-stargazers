@@ -17,6 +17,7 @@ interface Props {
 
 const HomepageForm = memo<Props>(({style, onSubmit}) => {
   const {
+    t,
     styles,
     form,
     repositoryInputRef,
@@ -33,7 +34,7 @@ const HomepageForm = memo<Props>(({style, onSubmit}) => {
           style={styles.ownerInput}
           id={'owner'}
           initialValue={form.owner}
-          placeholder={'Owner*'}
+          placeholder={t('owner_input_placeholder')}
           errorMessage={getErrorMessageOf('owner')}
           returnKeyType={'next'}
           onChangeText={onChangeText}
@@ -43,7 +44,7 @@ const HomepageForm = memo<Props>(({style, onSubmit}) => {
           ref={repositoryInputRef}
           id={'repository'}
           initialValue={form.repository}
-          placeholder={'Repository*'}
+          placeholder={t('repository_input_placeholder')}
           errorMessage={getErrorMessageOf('repository')}
           onChangeText={onChangeText}
         />

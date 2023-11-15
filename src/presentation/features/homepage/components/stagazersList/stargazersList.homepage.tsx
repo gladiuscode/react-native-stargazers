@@ -16,6 +16,7 @@ import useStyles from '../../../../providers/theme/useStyles.hook';
 import StargazerCard from '../../../../components/atoms/stargazerCard/stargazerCard.atom';
 import getHomepageStargazersStyles from './stargazersList.homepage.styles';
 import {STARGAZER_CARD_HEIGHT} from '../../../../components/atoms/stargazerCard/stargazerCard.styles';
+import {useLocalization} from '../../../../providers/localization/localization.container';
 
 interface Props {
   style?: StyleProp<ViewStyle>;
@@ -24,6 +25,7 @@ interface Props {
 }
 
 const HomepageStargazers = memo<Props>(({style, url, size}) => {
+  const {t} = useLocalization();
   const styles = useStyles(getHomepageStargazersStyles);
 
   const {data, loading, error, fetchNextPage, retry} =
@@ -71,7 +73,9 @@ const HomepageStargazers = memo<Props>(({style, url, size}) => {
         <View style={styles.errorContainer}>
           <Text style={styles.errorMessage}>{error}</Text>
           <TouchableOpacity style={styles.errorButton} onPress={retry}>
-            <Text style={styles.errorButtonMessage}>Retry</Text>
+            <Text style={styles.errorButtonMessage}>
+              {t('no_stargazers_found_retry_button_text')}
+            </Text>
           </TouchableOpacity>
         </View>
       );
@@ -79,7 +83,7 @@ const HomepageStargazers = memo<Props>(({style, url, size}) => {
 
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyMessage}>No stargazers found</Text>
+        <Text style={styles.emptyMessage}>{t('missing_stargazers_text')}</Text>
       </View>
     );
   }, [
@@ -92,6 +96,7 @@ const HomepageStargazers = memo<Props>(({style, url, size}) => {
     styles.errorButtonMessage,
     styles.errorContainer,
     styles.errorMessage,
+    t,
   ]);
 
   return (

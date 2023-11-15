@@ -2,6 +2,7 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import RepositoryEntity from '../../../domain/entities/repository.entity';
 import {useRepositories} from '../../providers/repositories/repositories.container';
 import {useBanner} from '../../providers/banner/banner.container';
+import {useLocalization} from '../../providers/localization/localization.container';
 
 interface UseGetRepositoryApiParams {
   owner?: string;
@@ -12,6 +13,7 @@ const useGetRepositoryApi = ({
   owner,
   repository,
 }: UseGetRepositoryApiParams) => {
+  const {t} = useLocalization();
   const {showBanner} = useBanner();
   const repositoryRepository = useRepositories().repository;
   const [data, setData] = useState<RepositoryEntity>();
@@ -41,11 +43,9 @@ const useGetRepositoryApi = ({
         isInitialFetchDone.current = true;
       }
     } catch (e) {
-      handleError(
-        'Repository not found. Are you sure that both owner and repository exist?',
-      );
+      handleError(t('no_repository_found'));
     }
-  }, [handleError, owner, repository, repositoryRepository]);
+  }, [handleError, owner, repository, repositoryRepository, t]);
 
   useEffect(() => {
     if (!enabled) {

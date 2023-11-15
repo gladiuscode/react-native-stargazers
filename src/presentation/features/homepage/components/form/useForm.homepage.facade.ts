@@ -2,6 +2,7 @@ import useStyles from '../../../../providers/theme/useStyles.hook';
 import getHomepageFormStyles from './form.styles';
 import {useCallback, useMemo, useRef, useState} from 'react';
 import {Keyboard, TextInput} from 'react-native';
+import {useLocalization} from '../../../../providers/localization/localization.container';
 
 interface Form {
   owner?: string;
@@ -11,6 +12,7 @@ interface Form {
 const useHomepageFormFacade = (
   onSubmit: (owner: string, repository: string) => void,
 ) => {
+  const {t} = useLocalization();
   const styles = useStyles(getHomepageFormStyles);
   const [form, setForm] = useState<Form>({});
   const [showErrors, setShowErrors] = useState(false);
@@ -29,12 +31,12 @@ const useHomepageFormFacade = (
       }
 
       if (id === 'owner') {
-        return !form.owner ? 'Owner is mandatory' : undefined;
+        return !form.owner ? t('owner_is_mandatory') : undefined;
       }
 
-      return !form.repository ? 'Repository is mandatory' : undefined;
+      return !form.repository ? t('repository_is_mandatory') : undefined;
     },
-    [form.owner, form.repository, showErrors],
+    [form.owner, form.repository, showErrors, t],
   );
 
   const onChangeText = useCallback(
@@ -66,6 +68,7 @@ const useHomepageFormFacade = (
   }, [form.owner, form.repository, isInvalid, onSubmit]);
 
   return {
+    t,
     styles,
     form,
     repositoryInputRef,

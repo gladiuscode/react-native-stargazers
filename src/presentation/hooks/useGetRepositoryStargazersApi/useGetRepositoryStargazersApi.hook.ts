@@ -2,10 +2,12 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import {useRepositories} from '../../providers/repositories/repositories.container';
 import StargazerEntity from '../../../domain/entities/stargazer.entity';
 import {useBanner} from '../../providers/banner/banner.container';
+import {useLocalization} from '../../providers/localization/localization.container';
 
 export const STARGAZERS_PER_PAGE = 50;
 
 const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
+  const {t} = useLocalization();
   const {showBanner} = useBanner();
   const repositoryRepository = useRepositories().repository;
   const [data, setData] = useState<StargazerEntity[]>([]);
@@ -47,12 +49,12 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
           isInitialFetchDone.current = !!nextStargazers.length;
         }
       } catch (e) {
-        handleError('Stargazers not found. Something went wrong.');
+        handleError(t('no_stargazers_found'));
       } finally {
         setLoading(false);
       }
     },
-    [handleError, repositoryRepository],
+    [handleError, repositoryRepository, t],
   );
 
   useEffect(() => {

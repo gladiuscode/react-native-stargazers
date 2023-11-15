@@ -67,8 +67,8 @@ it('should render search button and display errors under inputs if invalid input
 
   await user.press(searchButton);
 
-  getByText('Owner is mandatory');
-  getByText('Repository is mandatory');
+  getByText('Owner field is mandatory');
+  getByText('Repository field is mandatory');
 });
 
 it('should render search button and call onSubmit if valid inputs are provided', async () => {
