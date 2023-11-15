@@ -1,7 +1,7 @@
 import {beforeEach, describe, expect, it} from '@jest/globals';
 import RemoteDatasourceImpl from '../remote.datasource';
 import ClientApiMock from '../../../../__mocks__/client.api';
-import {IClientApi} from '../../api/client.api';
+import {IClientApi} from 'data/api/client.api';
 
 const clientApiMock = new ClientApiMock('test');
 const remoteDatasource = new RemoteDatasourceImpl(clientApiMock as IClientApi);

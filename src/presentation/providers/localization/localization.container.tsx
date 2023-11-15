@@ -6,7 +6,7 @@ import {
   languages,
   resources,
 } from './config.localization';
-import contextFactory from '../../../utils/contextFactory/contextFactory.util';
+import contextFactory from '@utils/contextFactory/contextFactory.util';
 
 export interface LocalizationContext {
   readonly language: Language;
