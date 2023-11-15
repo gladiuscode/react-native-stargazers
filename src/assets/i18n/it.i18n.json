@@ -1,0 +1,11 @@
+{
+  "title": "StarGazers",
+  "owner_input_placeholder": "Autore*",
+  "repository_input_placeholder": "Repository*",
+  "owner_is_mandatory": "Il campo autore è obbligatorio",
+  "repository_is_mandatory": "Il campo repository è obbligatorio",
+  "no_stargazers_found_retry_button_text": "Riprova",
+  "missing_stargazers_text": "Nessun stargazer trovato",
+  "no_stargazers_found": "Nessun stargazers trovato. Qualcosa è andato storto",
+  "no_repository_found": "Repository non trovata, forse l'autore e il nome non sono corretti?"
+}

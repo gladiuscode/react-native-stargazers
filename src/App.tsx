@@ -3,16 +3,19 @@ import RepositoriesContainer from './presentation/providers/repositories/reposit
 import ThemeContainer from './presentation/providers/theme/theme.container';
 import HomepageScreen from './presentation/features/homepage/homepage.screen';
 import BannerProvider from './presentation/providers/banner/banner.container';
+import LocalizationContainer from './presentation/providers/localization/localization.container';
 
 function App(): JSX.Element {
   return (
-    <RepositoriesContainer>
-      <ThemeContainer>
-        <BannerProvider>
-          <HomepageScreen />
-        </BannerProvider>
-      </ThemeContainer>
-    </RepositoriesContainer>
+    <LocalizationContainer>
+      <RepositoriesContainer>
+        <ThemeContainer>
+          <BannerProvider>
+            <HomepageScreen />
+          </BannerProvider>
+        </ThemeContainer>
+      </RepositoriesContainer>
+    </LocalizationContainer>
   );
 }
 

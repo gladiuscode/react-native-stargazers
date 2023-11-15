@@ -1,0 +1,11 @@
+{
+  "title": "StarGazers",
+  "owner_input_placeholder": "Owner*",
+  "repository_input_placeholder": "Repository*",
+  "owner_is_mandatory": "Owner field is mandatory",
+  "repository_is_mandatory": "Repository field is mandatory",
+  "no_stargazers_found_retry_button_text": "Retry",
+  "missing_stargazers_text": "No stargazers found",
+  "no_stargazers_found": "Stargazers not found. Something went wrong.",
+  "no_repository_found": "Repository not found. Are you sure that both owner and repository exist?"
+}
