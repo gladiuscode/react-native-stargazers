@@ -4,6 +4,9 @@ import ThemeContainer from '@presentation/providers/theme/theme.container';
 import HomepageScreen from '@presentation/features/homepage/homepage.screen';
 import BannerProvider from '@presentation/providers/banner/banner.container';
 import LocalizationContainer from '@presentation/providers/localization/localization.container';
+import configEnv from '@envs/config.env';
+
+configEnv.log();
 
 function App(): JSX.Element {
   return (

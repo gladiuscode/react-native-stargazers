@@ -1,0 +1,52 @@
+/**
+ * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
+ */
+def enableProguardInReleaseBuilds = false
+
+android {
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://reactnative.dev/docs/signed-apk-android.
+            signingConfig signingConfigs.debug
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    flavorDimensions "environment"
+
+    productFlavors {
+
+        development {
+            dimension "environment"
+            applicationIdSuffix ".dev"
+        }
+
+        production {
+            dimension "environment"
+        }
+
+    }
+
+    applicationVariants.all { variant ->
+        println "Apply configuration for ${variant.getName()}"
+        if (variant.getName().contains("developmentDebug")) {
+            variant.resValue "string", "app_name", "Stargazers DEV"
+        }
+        if (variant.getName().contains("developmentRelease")) {
+            variant.resValue "string", "app_name", "Stargazers DEV"
+        }
+        if (variant.getName().contains("productionDebug")) {
+            variant.resValue "string", "app_name", "Stargazers"
+        }
+        if (variant.getName().contains("productionRelease")) {
+            variant.resValue "string", "app_name", "Stargazers"
+        }
+    }
+
+}

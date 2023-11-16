@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android --list-devices",
+    "android:development": "react-native run-android --mode='developmentDebug' --list-devices",
+    "android:production": "react-native run-android --mode='productionDebug' --list-devices",
     "ios": "react-native run-ios --list-devices",
     "lint": "eslint .",
     "start": "react-native start",
