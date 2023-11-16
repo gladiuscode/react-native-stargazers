@@ -18,6 +18,7 @@ interface Props {
 }
 
 const HomepageHeader = memo<Props>(({style}) => {
+  const {t} = useLocalization();
   const styles = useStyles(getHomepageHeaderStyles);
   const {language, onLanguageChange} = useLocalization();
   const {variant, onVariantChange} = useAppTheme();
@@ -32,7 +33,7 @@ const HomepageHeader = memo<Props>(({style}) => {
 
   return (
     <View style={[styles.container, style]}>
-      <Text style={styles.title}>StarGazers</Text>
+      <Text style={styles.title}>{t('title')}</Text>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.languageButton}
