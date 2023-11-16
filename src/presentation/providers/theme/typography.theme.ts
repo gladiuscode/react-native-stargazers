@@ -1,7 +1,13 @@
 import {Palette} from './palette.theme';
 import {TextStyle} from 'react-native';
 
-const fontFamily = {};
+const fontFamily = {
+  roboto: {
+    regular: 'Roboto-Regular',
+    medium: 'Roboto-Medium',
+    bold: 'Roboto-Bold',
+  },
+};
 
 const typographyStyle = {
   h1: {
@@ -34,6 +40,7 @@ const getTypographyBy = (palette: Palette) => {
   const styles = keys.reduce((acc, key) => {
     const updatedTypography = {
       ...typographyStyle[key],
+      fontFamily: fontFamily.roboto.regular,
       color: palette.text,
     };
     return {
