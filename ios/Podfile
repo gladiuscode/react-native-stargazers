@@ -17,7 +17,7 @@ prepare_react_native_project!
 #   dependencies: {
 #     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
 # ```
-flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
+flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled(['developmentDebug', 'productionDebug'])
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
@@ -25,10 +25,17 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-ENVFILES = {
-  'Debug' => '$(PODS_ROOT)/../../envs/.env',
-  'Release' => '$(PODS_ROOT)/../../envs/.env',
-}
+# CONFIGURATIONS
+devDebugConfigName = 'developmentDebug'
+devReleaseConfigName = 'developmentRelease'
+prodDebugConfigName = 'productionDebug'
+prodReleaseConfigName = 'productionRelease'
+
+project 'stargazers',
+devDebugConfigName => :debug,
+prodDebugConfigName => :debug,
+devReleaseConfigName => :release,
+prodReleaseConfigName => :release
 
 target 'stargazers' do
   config = use_native_modules!
@@ -49,11 +56,6 @@ target 'stargazers' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-
-  target 'stargazersTests' do
-    inherit! :complete
-    # Pods for testing
-  end
   
   post_install do |installer|
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
@@ -64,6 +66,21 @@ target 'stargazers' do
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
     
+    ##############################################################
+    ##
+    ##                  REACT NATIVE CONFIG
+    ##
+    ##          This is needed because we've got custom
+    ##          targets configurations and different .env files
+    ##
+    ##############################################################
+    ENVFILES = {
+      devDebugConfigName => '$(PODS_ROOT)/../../envs/.env.development',
+      devReleaseConfigName => '$(PODS_ROOT)/../../envs/.env.development',
+      prodDebugConfigName => '$(PODS_ROOT)/../../envs/.env.production',
+      prodReleaseConfigName => '$(PODS_ROOT)/../../envs/.env.production',
+    }
+    
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
         if target.name == 'react-native-config'
@@ -71,5 +88,6 @@ target 'stargazers' do
         end
       end
     end
+    ##############################################################
   end
 end

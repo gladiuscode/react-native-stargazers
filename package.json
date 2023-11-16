@@ -5,7 +5,8 @@
   "scripts": {
     "android:development": "react-native run-android --mode='developmentDebug' --list-devices",
     "android:production": "react-native run-android --mode='productionDebug' --list-devices",
-    "ios": "react-native run-ios --list-devices",
+    "ios:development": "react-native run-ios --scheme='stargazersDev' --list-devices",
+    "ios:production": "react-native run-ios --list-devices",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
