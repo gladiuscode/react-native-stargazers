@@ -71,7 +71,7 @@ const HomepageStargazers = memo<Props>(({style, url, size}) => {
     if (error) {
       return (
         <View style={styles.errorContainer}>
-          <Text style={styles.errorMessage}>{error}</Text>
+          <Text style={styles.errorMessage}>{t(error)}</Text>
           <TouchableOpacity style={styles.errorButton} onPress={retry}>
             <Text style={styles.errorButtonMessage}>
               {t('no_stargazers_found_retry_button_text')}

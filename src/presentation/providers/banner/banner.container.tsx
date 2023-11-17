@@ -8,6 +8,8 @@ import React, {
 import {Text, TouchableOpacity, View} from 'react-native';
 import useStyles from '../theme/useStyles.hook';
 import getBannerContainer from './banner.styles';
+import {LocalizedLabelKey} from 'presentation/providers/localization/config.localization';
+import {useLocalization} from 'presentation/providers/localization/localization.container';
 
 interface BannerContext {
   showBanner(message: string, type?: BannerType): void;
@@ -23,17 +25,18 @@ export enum BannerType {
 }
 
 interface Banner {
-  message: string;
+  message: LocalizedLabelKey;
   type: BannerType;
 }
 
 const BannerContainer: React.FC<PropsWithChildren> = ({children}) => {
+  const {t} = useLocalization();
   const styles = useStyles(getBannerContainer);
 
   const [banner, setBanner] = useState<Banner>();
 
   const showBanner = useCallback<BannerContext['showBanner']>(
-    (message: string, type = BannerType.error) => {
+    (message: LocalizedLabelKey, type = BannerType.error) => {
       setBanner({
         message,
         type,
@@ -72,7 +75,7 @@ const BannerContainer: React.FC<PropsWithChildren> = ({children}) => {
         <View style={styles[`${banner.type}Container`]}>
           <TouchableOpacity onPress={onDismissPress}>
             <Text style={styles[`${banner.type}Message`]}>
-              {banner.message}
+              {t(banner.message)}
             </Text>
           </TouchableOpacity>
         </View>

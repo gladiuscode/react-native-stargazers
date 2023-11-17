@@ -4,13 +4,14 @@ import {
   defaultLanguage,
   Language,
   languages,
+  LocalizedLabelKey,
   resources,
 } from './config.localization';
 import contextFactory from '@utils/contextFactory/contextFactory.util';
 
 export interface LocalizationContext {
   readonly language: Language;
-  readonly t: (key: keyof (typeof resources)['it']) => string;
+  readonly t: (key: LocalizedLabelKey) => string;
   readonly onLanguageChange: (language: Language) => void;
 }
 

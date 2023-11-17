@@ -7,3 +7,5 @@ export type Language = (typeof languages)[number];
 export const defaultLanguage: Language = 'en';
 
 export const resources = i18nResources;
+
+export type LocalizedLabelKey = keyof (typeof resources)['it'];

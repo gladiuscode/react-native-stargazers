@@ -6,7 +6,7 @@ import useHomepageFacade from './useHomepage.facade';
 import HomepageStargazers from './components/stagazersList/stargazersList.homepage';
 
 const HomepageScreen = () => {
-  const {styles, repositoryEntity, loading, error, onSubmit} =
+  const {t, styles, repositoryEntity, loading, error, onSubmit} =
     useHomepageFacade();
 
   return (
@@ -24,7 +24,7 @@ const HomepageScreen = () => {
         ) : null}
         {!repositoryEntity && error ? (
           <View style={styles.errorContainer}>
-            <Text style={styles.errorMessage}>{error}</Text>
+            <Text style={styles.errorMessage}>{t(error)}</Text>
           </View>
         ) : null}
         {repositoryEntity ? (

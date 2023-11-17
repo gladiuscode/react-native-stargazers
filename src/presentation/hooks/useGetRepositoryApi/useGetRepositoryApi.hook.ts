@@ -2,7 +2,7 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import RepositoryEntity from '../../../domain/entities/repository.entity';
 import {useRepositories} from '../../providers/repositories/repositories.container';
 import {useBanner} from '../../providers/banner/banner.container';
-import {useLocalization} from '../../providers/localization/localization.container';
+import {LocalizedLabelKey} from 'presentation/providers/localization/config.localization';
 
 interface UseGetRepositoryApiParams {
   owner?: string;
@@ -13,17 +13,16 @@ const useGetRepositoryApi = ({
   owner,
   repository,
 }: UseGetRepositoryApiParams) => {
-  const {t} = useLocalization();
   const {showBanner} = useBanner();
   const repositoryRepository = useRepositories().repository;
   const [data, setData] = useState<RepositoryEntity>();
   const isInitialFetchDone = useRef<boolean>(false);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<LocalizedLabelKey>();
 
   const enabled = owner && repository;
 
   const handleError = useCallback(
-    (message: string) => {
+    (message: LocalizedLabelKey) => {
       if (isInitialFetchDone.current) {
         showBanner(message);
         return;
@@ -43,9 +42,9 @@ const useGetRepositoryApi = ({
         isInitialFetchDone.current = true;
       }
     } catch (e) {
-      handleError(t('no_repository_found'));
+      handleError('no_repository_found');
     }
-  }, [handleError, owner, repository, repositoryRepository, t]);
+  }, [handleError, owner, repository, repositoryRepository]);
 
   useEffect(() => {
     if (!enabled) {

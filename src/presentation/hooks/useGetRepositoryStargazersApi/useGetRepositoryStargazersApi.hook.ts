@@ -2,26 +2,24 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import {useRepositories} from '../../providers/repositories/repositories.container';
 import StargazerEntity from '../../../domain/entities/stargazer.entity';
 import {useBanner} from '../../providers/banner/banner.container';
-import {useLocalization} from '../../providers/localization/localization.container';
+import {LocalizedLabelKey} from 'presentation/providers/localization/config.localization';
 
 export const STARGAZERS_PER_PAGE = 50;
 
 const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
-  const {t} = useLocalization();
   const {showBanner} = useBanner();
   const repositoryRepository = useRepositories().repository;
   const [data, setData] = useState<StargazerEntity[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<LocalizedLabelKey>();
   const isInitialFetchDone = useRef<boolean>(false);
 
   const enabled = !!repositoryUrl;
   const currentPage = Math.ceil(data.length / STARGAZERS_PER_PAGE);
 
   const handleError = useCallback(
-    (message: string) => {
+    (message: LocalizedLabelKey) => {
       if (isInitialFetchDone.current) {
-        console.log('showBanner');
         showBanner(message);
         return;
       }
@@ -49,12 +47,12 @@ const useGetRepositoryStargazerApi = (repositoryUrl: string) => {
           isInitialFetchDone.current = !!nextStargazers.length;
         }
       } catch (e) {
-        handleError(t('no_stargazers_found'));
+        handleError('no_stargazers_found');
       } finally {
         setLoading(false);
       }
     },
-    [handleError, repositoryRepository, t],
+    [handleError, repositoryRepository],
   );
 
   useEffect(() => {
